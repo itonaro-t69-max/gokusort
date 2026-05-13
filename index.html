@@ -397,6 +397,7 @@
             { name: "炭酸水素ナトリウム", formula: "NaHCO₃", cat: "comp", mol: false, diff: 3 }
         ];
 
+        // --- STREAMING_CHUNK:ワンポイント解説とゲームロジック ---
         // --- ワンポイント解説ロジック ---
         function getExplanation(item) {
             if (item.cat === 'mix') return "化学式1つで書けない「混ざり物」だぞ！";
@@ -416,6 +417,7 @@
 
         // --- Logic ---
         let items = [], idx = 0, score = 0, mistakes = [], isAnimating = false, currentStage = 1;
+        let pendingTimeouts = []; // タイマー管理用配列を追加
         const el = {
             item: document.getElementById('currentItem'),
             boxes: document.getElementById('boxesContainer'),
@@ -445,7 +447,21 @@
             ]}
         };
 
+        const safeSetTimeout = (cb, delay) => {
+            const id = setTimeout(() => {
+                pendingTimeouts = pendingTimeouts.filter(tid => tid !== id);
+                cb();
+            }, delay);
+            pendingTimeouts.push(id);
+        };
+
+        const clearAllTimeouts = () => {
+            pendingTimeouts.forEach(clearTimeout);
+            pendingTimeouts = [];
+        };
+
         window.startGame = (stage) => {
+            clearAllTimeouts(); // 裏で動いているタイマーをすべて停止
             currentStage = stage;
             const diff = parseInt(document.querySelector('input[name="difficulty"]:checked').value);
             const count = document.querySelector('input[name="itemCount"]:checked').value;
@@ -457,6 +473,7 @@
             if (count !== 'all') items = items.slice(0, parseInt(count));
 
             idx = score = 0; mistakes = [];
+            el.formula.checked = false; // ヒントボタンの見た目も初期化
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.remove('hidden');
             document.getElementById('scoreBoard').classList.remove('hidden');
@@ -511,8 +528,8 @@
                 explode(r.left + r.width/2, r.top + r.height/2, dropped.color);
                 
                 idx++;
-                setTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 400);
-                setTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 900);
+                safeSetTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 400);
+                safeSetTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 900);
             } else {
                 const explanation = getExplanation(item);
                 el.feedback.innerHTML = `
@@ -525,8 +542,8 @@
                 pushMistake(item, correct.name);
                 
                 idx++;
-                setTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 400);
-                setTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 1600);
+                safeSetTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 600);
+                safeSetTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 3000);
             }
         };
 
@@ -548,31 +565,8 @@
             }
         };
 
-        const endMission = () => {
-            document.getElementById('gameScreen').classList.add('hidden');
-            document.getElementById('resultScreen').classList.remove('hidden');
-            document.getElementById('finalScore').innerText = score;
-            document.getElementById('finalTotal').innerText = items.length;
-
-            const list = document.getElementById('mistakeList');
-            const noMsg = document.getElementById('noMistakeMsg');
-            list.innerHTML = '';
-            if (mistakes.length === 0) {
-                noMsg.classList.remove('hidden');
-                list.classList.add('hidden');
-            } else {
-                noMsg.classList.add('hidden');
-                list.classList.remove('hidden');
-                mistakes.forEach(m => {
-                    const li = document.createElement('li');
-                    li.className = "bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs";
-                    li.innerHTML = `<div class='flex justify-between font-black mb-1 text-slate-300'><span>${m.item.name} (${m.item.formula})</span><span class='text-red-500'>正解: ${m.exp}</span></div>`;
-                    list.appendChild(li);
-                });
-            }
-        };
-
         window.resetToMenu = () => {
+            clearAllTimeouts(); // 裏で動いているタイマーをすべて停止
             idx = 0; isAnimating = false;
             document.getElementById('gameScreen').classList.add('hidden');
             document.getElementById('resultScreen').classList.add('hidden');
@@ -626,6 +620,19 @@
         // --- 次世代ドラッグシステム (Pointer Events) ---
         let dragInfo = { active: false, startX: 0, startY: 0, pointerId: null };
 
+        // 指の位置ではなく、カードの中心位置で当たり判定を行うように改良
+        const getBoxUnderItem = () => {
+            const rect = el.item.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const boxes = document.querySelectorAll('.box');
+            for (let b of boxes) {
+                const r = b.getBoundingClientRect();
+                if (centerX >= r.left && centerX <= r.right && centerY >= r.top && centerY <= r.bottom) return b;
+            }
+            return null;
+        };
+
         const startDrag = (e, rect) => {
             if (isAnimating) return;
             dragInfo.active = true;
@@ -645,7 +652,7 @@
             el.item.style.left = `${x}px`;
             el.item.style.top = `${y}px`;
 
-            const hit = getBoxUnder(e.clientX, e.clientY);
+            const hit = getBoxUnderItem(); // カードの中心で判定
             document.querySelectorAll('.box').forEach(b => {
                 if (hit && b.id === hit.id) b.classList.add('drag-over');
                 else b.classList.remove('drag-over');
@@ -657,7 +664,7 @@
             dragInfo.active = false;
             el.item.classList.remove('dragging');
             
-            const hit = getBoxUnder(e.clientX, e.clientY);
+            const hit = getBoxUnderItem(); // カードの中心で判定
             document.querySelectorAll('.box').forEach(b => b.classList.remove('drag-over'));
 
             if (hit && !isAnimating) {
@@ -672,18 +679,8 @@
             }
         };
 
-        const getBoxUnder = (x, y) => {
-            const boxes = document.querySelectorAll('.box');
-            for (let b of boxes) {
-                const r = b.getBoundingClientRect();
-                if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) return b;
-            }
-            return null;
-        };
-
         // Pointer Events の登録
         el.item.addEventListener('pointerdown', (e) => {
-            // 右クリックは無視
             if (e.pointerType === 'mouse' && e.button !== 0) return;
             const r = el.item.getBoundingClientRect();
             startDrag(e, r);
