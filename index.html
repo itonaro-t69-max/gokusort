@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ゴクソート (GOKU-SORT) - V7.2</title>
+    <title>ゴクソート (GOKU-SORT) - V8.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap');
@@ -29,7 +29,6 @@
 
         .cyber-font { font-family: 'Orbitron', sans-serif; }
 
-        /* ドラッグアニメーション（PC・スマホ共通） */
         .dragging {
             opacity: 0.95 !important;
             transform: scale(1.1) rotate(2deg) !important;
@@ -101,7 +100,6 @@
 
         .locked { pointer-events: none !important; }
 
-        /* タッチ＆マウス操作の完全統一設定 */
         .touch-safe { 
             touch-action: none;
             cursor: grab;
@@ -122,7 +120,7 @@
     <header class="bg-slate-950/80 border-b border-slate-800 z-50 backdrop-blur-md pt-safe">
         <div class="container mx-auto flex justify-between items-center p-3 landscape:p-2">
             <h1 class="text-xl md:text-2xl font-black cyber-font tracking-tighter text-cyan-400 flex items-center gap-2">
-                <span class="animate-pulse">⚡</span> GOKU-SORT <span class="text-[10px] text-slate-600 border border-slate-800 px-1 rounded ml-1">V7.2</span>
+                <span class="animate-pulse">⚡</span> GOKU-SORT <span class="text-[10px] text-slate-600 border border-slate-800 px-1 rounded ml-1">V8.2</span>
             </h1>
             <div id="scoreBoard" class="hidden bg-slate-900 border border-slate-700 rounded-full px-4 py-1 flex items-center gap-3">
                 <span class="text-xs text-slate-500 font-bold tracking-widest">スコア</span>
@@ -140,10 +138,10 @@
                 <div class="text-5xl mb-4 relative z-10">👆</div>
                 <h3 class="text-2xl font-black text-white mb-2 relative z-10 tracking-widest">あそびかた</h3>
                 <p class="text-slate-300 text-sm leading-relaxed mb-6 relative z-10">
-                    コンベアに流れてくる物質を、<br>
-                    <span class="text-cyan-400 font-bold">正しい分類の箱に指でスワイプ</span>して<br>
-                    仕分けていこう！<br><br>
-                    わからない時は<span class="text-orange-400 font-bold">「テストのコツ」</span>を<br>
+                    物質がコンベアを流れてくるぞ！<br>
+                    <span class="text-red-400 font-bold">時間切れになる前</span>に、指でスワイプして<br>
+                    正しい分類の箱に仕分けよう！<br><br>
+                    迷ったときは<span class="text-orange-400 font-bold">「分類マニュアル」</span>を<br>
                     読んでみてね。
                 </p>
                 <button onclick="closeTutorial()" class="relative z-10 btn-cyber w-full bg-cyan-600 hover:bg-cyan-500 text-white py-4 rounded-xl font-black tracking-widest shadow-lg">
@@ -154,24 +152,25 @@
 
         <!-- スタート画面 -->
         <div id="startScreen" class="absolute inset-0 bg-slate-950/95 z-[100] flex flex-col items-center justify-start rounded-2xl border border-slate-800 m-2 p-6 md:p-10 landscape:py-4 overflow-y-auto backdrop-blur-xl">
-            <div class="max-w-5xl w-full flex flex-col md:flex-row gap-8 items-center md:items-stretch">
+            <div class="max-w-6xl w-full flex flex-col md:flex-row gap-8 items-stretch">
                 
-                <div class="flex-1 w-full space-y-6">
+                <!-- 左側：設定・メニュー -->
+                <div class="flex-1 w-full space-y-5">
                     <div class="text-center relative">
                         <button onclick="openTutorial()" class="absolute -top-2 right-0 bg-slate-800 border border-slate-600 text-slate-300 px-3 py-1 rounded-full text-xs font-bold hover:bg-slate-700 transition">
                             📖 あそびかた
                         </button>
-                        <div class="text-6xl mb-4">⚛️</div>
+                        <div class="text-5xl mb-2">⚛️</div>
                         <h2 class="text-3xl md:text-4xl font-black tracking-widest mb-1 cyber-font">GOKU-SORT</h2>
                         <p class="text-slate-500 text-[10px] font-bold cyber-font">GOKU-CHEMI BROTHERS SYSTEM</p>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-[10px] font-black text-cyan-500 tracking-[0.2em] ml-1">難易度</label>
+                        <label class="text-[10px] font-black text-cyan-500 tracking-[0.2em] ml-1">コンベアの速さ（難易度）</label>
                         <div class="bg-slate-900 p-1 rounded-xl border border-slate-800 flex shadow-inner">
-                            <label class="segment-btn flex-1 cursor-pointer"><input type="radio" name="difficulty" value="1" checked class="hidden"><span class="block text-center py-2 text-xs md:text-sm font-bold text-slate-400 rounded-lg transition duration-300">初級</span></label>
-                            <label class="segment-btn flex-1 cursor-pointer"><input type="radio" name="difficulty" value="2" class="hidden"><span class="block text-center py-2 text-xs md:text-sm font-bold text-slate-400 rounded-lg transition duration-300">中級</span></label>
-                            <label class="segment-btn flex-1 cursor-pointer"><input type="radio" name="difficulty" value="3" class="hidden"><span class="block text-center py-2 text-xs md:text-sm font-bold text-slate-400 rounded-lg transition duration-300">上級</span></label>
+                            <label class="segment-btn flex-1 cursor-pointer"><input type="radio" name="difficulty" value="1" checked class="hidden"><span class="block text-center py-2 text-xs md:text-sm font-bold text-slate-400 rounded-lg transition duration-300">初級 (ゆっくり)</span></label>
+                            <label class="segment-btn flex-1 cursor-pointer"><input type="radio" name="difficulty" value="2" class="hidden"><span class="block text-center py-2 text-xs md:text-sm font-bold text-slate-400 rounded-lg transition duration-300">中級 (ふつう)</span></label>
+                            <label class="segment-btn flex-1 cursor-pointer"><input type="radio" name="difficulty" value="3" class="hidden"><span class="block text-center py-2 text-xs md:text-sm font-bold text-slate-400 rounded-lg transition duration-300">上級 (はやい)</span></label>
                         </div>
                     </div>
 
@@ -187,11 +186,11 @@
                     <div class="grid grid-cols-1 gap-3 pt-2">
                         <button onclick="startGame(1)" class="btn-cyber w-full bg-orange-950/20 hover:bg-orange-900/30 border border-orange-500/50 text-white py-4 px-6 rounded-xl font-black flex items-center justify-between group">
                             <span class="text-orange-400">LV.1: 基本分類</span>
-                            <span class="text-[10px] text-slate-500 group-hover:text-slate-300 transition">単体/化合物/混合物</span>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-300 transition">単体 / 化合物 / 混合物</span>
                         </button>
                         <button onclick="startGame(2)" class="btn-cyber w-full bg-cyan-950/20 hover:bg-cyan-900/30 border border-cyan-500/50 text-white py-4 px-6 rounded-xl font-black flex items-center justify-between group">
                             <span class="text-cyan-400">LV.2: 分子構造</span>
-                            <span class="text-[10px] text-slate-500 group-hover:text-slate-300 transition">分子/非分子</span>
+                            <span class="text-[10px] text-slate-500 group-hover:text-slate-300 transition">分子 / 非分子</span>
                         </button>
                         <button onclick="startGame(3)" class="btn-cyber w-full bg-fuchsia-950/20 hover:bg-fuchsia-900/30 border border-fuchsia-500/50 text-white py-4 px-6 rounded-xl font-black flex items-center justify-between group">
                             <span class="text-fuchsia-400">LV.3: 完全制覇</span>
@@ -204,23 +203,41 @@
                     </button>
                 </div>
 
-                <div class="flex-1 w-full">
-                    <div class="h-full bg-slate-900/50 rounded-2xl border border-slate-800 p-6 flex flex-col justify-center space-y-6">
-                        <h3 class="font-black text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-3 tracking-widest">
-                            <span class="text-xl">💡</span> テストのコツ
+                <!-- 右側：完全版マニュアル -->
+                <div class="flex-1 w-full max-h-full">
+                    <div class="h-full bg-slate-900/50 rounded-2xl border border-slate-800 p-4 md:p-6 flex flex-col justify-start space-y-4 overflow-y-auto custom-scroll">
+                        <h3 class="font-black text-cyan-400 flex items-center gap-2 border-b border-slate-800 pb-2 tracking-widest text-base md:text-lg">
+                            <span>📖</span> 物質の分類マニュアル
                         </h3>
-                        <div class="space-y-6 text-sm">
-                            <div class="group">
-                                <p class="text-orange-400 font-bold mb-1 flex items-center gap-2"><span>1.</span> 化学式を観察せよ</p>
-                                <p class="text-slate-400 pl-6 leading-relaxed group-hover:text-slate-200 transition">大文字の種類を確認しよう。1種類なら単体、2種類以上なら化合物だ。</p>
+                        <div class="space-y-4 text-xs md:text-sm">
+                            
+                            <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-orange-500 shadow-sm">
+                                <p class="font-bold text-orange-400 mb-1 tracking-widest">【単体】</p>
+                                <p class="text-slate-300 leading-relaxed">1種類の元素記号（大文字1つ）からなる物質。<br><span class="text-slate-500 text-[10px]">例: O₂, Fe</span></p>
                             </div>
-                            <div class="group">
-                                <p class="text-fuchsia-400 font-bold mb-1 flex items-center gap-2"><span>2.</span> 混合物の引っかけ</p>
-                                <p class="text-slate-400 pl-6 leading-relaxed group-hover:text-slate-200 transition">塩酸、空気、海水。これらは複数の純物質が混ざり合った「混合物」だ。化学式1つで表現することはできないぞ。</p>
+                            
+                            <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-cyan-500 shadow-sm">
+                                <p class="font-bold text-cyan-400 mb-1 tracking-widest">【化合物】</p>
+                                <p class="text-slate-300 leading-relaxed">2種類以上の元素記号（大文字2つ以上）からなる物質。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂</span></p>
                             </div>
-                            <div class="group">
-                                <p class="text-cyan-400 font-bold mb-1 flex items-center gap-2"><span>3.</span> 分子か、非分子か</p>
-                                <p class="text-slate-400 pl-6 leading-relaxed group-hover:text-slate-200 transition">「金属」が含まれる物質は無限に結びつくため、分子をつくらない。「非金属」のみでできた物質が、独立した分子をつくるぞ。</p>
+                            
+                            <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-fuchsia-500 shadow-sm">
+                                <p class="font-bold text-fuchsia-400 mb-1 tracking-widest">【混合物】</p>
+                                <p class="text-slate-300 leading-relaxed">複数の物質が混ざったもの。化学式1つで書けない。<br><span class="text-slate-500 text-[10px]">例: 空気, 塩酸(HCl+水), 海水</span></p>
+                            </div>
+                            
+                            <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-slate-300 shadow-sm">
+                                <p class="font-bold text-slate-200 mb-1 tracking-widest">【分子から作られている】</p>
+                                <p class="text-slate-300 leading-relaxed">非金属のみでできた独立した粒。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂</span></p>
+                            </div>
+                            
+                            <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-slate-600 shadow-sm">
+                                <p class="font-bold text-slate-400 mb-2 tracking-widest">【分子から作られていない】</p>
+                                <ul class="text-slate-300 pl-4 space-y-2 list-disc marker:text-cyan-500">
+                                    <li><span class="text-yellow-400 font-bold">金属パターン:</span><br>金属原子が無限に連なる。<br><span class="text-slate-500 text-[10px]">例: Fe, Cu, Ag</span></li>
+                                    <li><span class="text-green-400 font-bold">塩化ナトリウムパターン:</span><br>＋と－のイオンが無限に連なる。<br><span class="text-slate-500 text-[10px]">例: NaCl, CuO</span></li>
+                                    <li class="text-[10px] text-orange-300"><span class="font-bold">例外:</span> 炭素(C)は非金属だが無限に連なる。</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -258,7 +275,13 @@
                         <div class="absolute bottom-0 w-full h-8 landscape:h-4 conveyor-belt opacity-50"></div>
                     </div>
                     
-                    <div id="currentItem" class="touch-safe bg-slate-800 border-[3px] border-slate-600 rounded-xl p-3 shadow-2xl flex flex-col items-center justify-center min-h-[4.5rem] md:min-h-[7rem] landscape:min-h-[4rem] w-[80%] max-w-[15rem] md:max-w-[20rem] text-center break-words relative z-[9999]"></div>
+                    <div class="absolute top-0 left-0 w-full h-[6px] bg-slate-800 rounded-t-2xl overflow-hidden z-20">
+                        <div id="timeGauge" class="h-full bg-cyan-500 w-full transition-all duration-75"></div>
+                    </div>
+
+                    <div class="absolute inset-0 overflow-hidden pointer-events-none rounded-2xl">
+                        <div id="currentItem" class="pointer-events-auto touch-safe bg-slate-800 border-[3px] border-slate-600 rounded-xl p-3 shadow-2xl flex flex-col items-center justify-center min-h-[4.5rem] md:min-h-[7rem] landscape:min-h-[4rem] w-[40%] max-w-[12rem] text-center break-words absolute top-1/2 -translate-y-1/2 z-[60]"></div>
+                    </div>
                 </div>
 
                 <div class="mt-4 flex justify-center">
@@ -270,11 +293,10 @@
                 </div>
             </div>
 
-            <!-- 分類ボックスコンテナ -->
             <div id="boxesContainer" class="flex-grow grid gap-3 landscape:gap-2 place-content-center z-40"></div>
 
             <div class="mt-auto py-4 text-center z-40">
-                <button onclick="resetToMenu()" class="text-[10px] font-black text-slate-600 hover:text-red-400 transition-colors tracking-widest">◀ メニューにもどる</button>
+                <button onclick="resetToMenu()" class="text-[10px] font-black text-slate-600 hover:text-red-400 transition-colors tracking-widest border border-transparent p-2">◀ メニューにもどる</button>
             </div>
         </div>
 
@@ -312,7 +334,7 @@
 
         // --- Firebase Config & Auth ---
         let db, auth, user, mistakeRecords = [];
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'goku-sort-v7';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'goku-sort-v8-2';
         let isFirebaseEnabled = false;
 
         const initializeFirebase = async () => {
@@ -323,19 +345,21 @@
                     db = getFirestore(app);
                     isFirebaseEnabled = true;
 
-                    // ★エラー修正箇所: Firebase App の初期化が完了した後にリスナーを登録
-                    onAuthStateChanged(auth, (u) => {
-                        user = u;
-                        if (u) setupDataSync();
-                    });
-
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                         await signInWithCustomToken(auth, __initial_auth_token);
                     } else {
                         await signInAnonymously(auth);
                     }
+                    
+                    onAuthStateChanged(auth, (u) => {
+                        user = u;
+                        if (u) setupDataSync();
+                    });
                 }
-            } catch (err) { console.warn("Firebase Init Error", err); }
+            } catch (err) { 
+                console.warn("Firebase Init Error", err); 
+                isFirebaseEnabled = false;
+            }
         };
 
         const setupDataSync = () => {
@@ -371,6 +395,7 @@
             { name: "二酸化炭素", formula: "CO₂", cat: "comp", mol: true, diff: 1 },
             { name: "鉄", formula: "Fe", cat: "elem", mol: false, diff: 1 },
             { name: "銅", formula: "Cu", cat: "elem", mol: false, diff: 1 },
+            { name: "銀", formula: "Ag", cat: "elem", mol: false, diff: 1 },
             { name: "塩化ナトリウム", formula: "NaCl", cat: "comp", mol: false, diff: 1 },
             { name: "空気", formula: "N₂, O₂等", cat: "mix", mol: null, diff: 1 },
             { name: "海水", formula: "H₂O, NaCl等", cat: "mix", mol: null, diff: 1 },
@@ -397,14 +422,12 @@
             { name: "炭酸水素ナトリウム", formula: "NaHCO₃", cat: "comp", mol: false, diff: 3 }
         ];
 
-        // --- STREAMING_CHUNK:ワンポイント解説とゲームロジック ---
-        // --- ワンポイント解説ロジック ---
         function getExplanation(item) {
             if (item.cat === 'mix') return "化学式1つで書けない「混ざり物」だぞ！";
             if (item.mol === true) return "非金属だけでできた「独立した粒」だ！";
             if (item.mol === false) {
                 if (item.cat === 'elem') {
-                    if (item.name.includes("炭素") || item.name.includes("ダイヤモンド")) return "炭素(C)は無限に連なる例外だ！";
+                    if (item.name.includes("炭素") || item.name.includes("ダイヤモンド")) return "炭素(C)は例外！非金属だが無限に連なる！";
                     return "金属はブロックのように無限に連なるぞ！";
                 }
                 if (item.name.includes("銀") || item.name.includes("銅") || item.name.includes("鉄") || item.name.includes("マグネシウム") || item.name.includes("ナトリウム") || item.name.includes("カリウム") || item.name.includes("カルシウム") || item.name.includes("アンモニウム")) {
@@ -416,8 +439,15 @@
         }
 
         // --- Logic ---
-        let items = [], idx = 0, score = 0, mistakes = [], isAnimating = false, currentStage = 1;
-        let pendingTimeouts = []; // タイマー管理用配列を追加
+        let items = [], idx = 0, score = 0, mistakes = [];
+        let isAnimating = false, isPlaying = false, currentStage = 1;
+        let currentItemPos = 130; 
+        let currentItemTime = 0;
+        let totalDuration = 0;
+        let lastTime = performance.now();
+        let conveyorAnimId = null;
+        let activeTimeouts = [];
+
         const el = {
             item: document.getElementById('currentItem'),
             boxes: document.getElementById('boxesContainer'),
@@ -425,7 +455,8 @@
             total: document.getElementById('totalItems'),
             feedback: document.getElementById('feedbackMsg'),
             formula: document.getElementById('toggleFormula'),
-            particle: document.getElementById('particle-container')
+            particle: document.getElementById('particle-container'),
+            timeGauge: document.getElementById('timeGauge')
         };
 
         const config = {
@@ -447,33 +478,57 @@
             ]}
         };
 
-        const safeSetTimeout = (cb, delay) => {
+        const safeTimeout = (fn, delay) => {
             const id = setTimeout(() => {
-                pendingTimeouts = pendingTimeouts.filter(tid => tid !== id);
-                cb();
+                activeTimeouts = activeTimeouts.filter(t => t !== id);
+                fn();
             }, delay);
-            pendingTimeouts.push(id);
+            activeTimeouts.push(id);
+            return id;
+        };
+        const clearAllTimeouts = () => {
+            activeTimeouts.forEach(clearTimeout);
+            activeTimeouts = [];
         };
 
-        const clearAllTimeouts = () => {
-            pendingTimeouts.forEach(clearTimeout);
-            pendingTimeouts = [];
-        };
+        // ★修正点2: 完全なランダムシャッフルアルゴリズム（Fisher-Yates）
+        function shuffleArray(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
 
         window.startGame = (stage) => {
-            clearAllTimeouts(); // 裏で動いているタイマーをすべて停止
+            clearAllTimeouts();
+            isPlaying = true;
+            isAnimating = false;
             currentStage = stage;
+            el.formula.checked = false;
+
             const diff = parseInt(document.querySelector('input[name="difficulty"]:checked').value);
             const count = document.querySelector('input[name="itemCount"]:checked').value;
             
-            let filtered = substances.filter(s => s.diff <= diff);
-            if (config[stage].filter) filtered = filtered.filter(config[stage].filter);
+            // ★修正点1: デバイスの性能（Hz）に依存しないストップウォッチ式の絶対時間管理
+            totalDuration = (diff === 1 ? 12 : diff === 2 ? 9 : 6) * 1000;
             
-            items = filtered.sort(() => 0.5 - Math.random());
-            if (count !== 'all') items = items.slice(0, parseInt(count));
+            let pool = substances.filter(s => s.diff <= diff);
+            if (config[stage].filter) pool = pool.filter(config[stage].filter);
+            
+            // ★修正点3: 「抽出した問題数」が「出題設定数」に満たない場合はシャッフルして補填する
+            let targetCount = count === 'all' ? pool.length : parseInt(count);
+            items = [];
+            while (items.length < targetCount) {
+                let shuffledPool = shuffleArray(pool);
+                for (let item of shuffledPool) {
+                    items.push(item);
+                    if (items.length >= targetCount) break;
+                }
+            }
 
             idx = score = 0; mistakes = [];
-            el.formula.checked = false; // ヒントボタンの見た目も初期化
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.remove('hidden');
             document.getElementById('scoreBoard').classList.remove('hidden');
@@ -490,14 +545,73 @@
                 el.boxes.appendChild(div);
             });
 
+            lastTime = performance.now();
+            cancelAnimationFrame(conveyorAnimId);
+            conveyorAnimId = requestAnimationFrame(conveyorLoop);
+
             showNext();
         };
 
+        function conveyorLoop(currentTime) {
+            if (!isPlaying) return;
+            
+            // 経過時間を計算（別タブを開いていた時のワープを防ぐため最大値100msを設定）
+            let dt = currentTime - lastTime;
+            if (dt > 100) dt = 16; 
+            lastTime = currentTime;
+
+            if (!isAnimating && !dragInfo.active) {
+                currentItemTime -= dt; // 制限時間を減らす
+                
+                // 残り時間から位置（130%〜-30%）を正確に計算
+                let progress = 1 - (currentItemTime / totalDuration);
+                currentItemPos = 130 - (160 * progress);
+                
+                let gaugeWidth = Math.max(0, (currentItemTime / totalDuration) * 100);
+                el.timeGauge.style.width = `${gaugeWidth}%`;
+                
+                if (gaugeWidth < 25) el.timeGauge.className = 'h-full w-full transition-all duration-75 bg-red-500';
+                else if (gaugeWidth < 50) el.timeGauge.className = 'h-full w-full transition-all duration-75 bg-yellow-400';
+                else el.timeGauge.className = 'h-full w-full transition-all duration-75 bg-cyan-500';
+
+                if (currentItemTime <= 0) {
+                    if (dragInfo.active) {
+                        dragInfo.active = false;
+                        el.item.classList.remove('dragging');
+                        document.querySelectorAll('.box').forEach(b => b.classList.remove('drag-over'));
+                        if (dragInfo.pointerId !== null && el.item.hasPointerCapture(dragInfo.pointerId)) {
+                            el.item.releasePointerCapture(dragInfo.pointerId);
+                        }
+                    }
+                    handleTimeOver();
+                } else if (!dragInfo.active) {
+                    el.item.style.left = `${currentItemPos}%`;
+                }
+            }
+            conveyorAnimId = requestAnimationFrame(conveyorLoop);
+        }
+
         const showNext = () => {
-            if (idx >= items.length) return endMission();
+            if (idx >= items.length) {
+                endMission();
+                return;
+            }
             isAnimating = false;
-            el.item.classList.remove('locked', 'opacity-0', 'scale-50');
-            el.item.style.cssText = '';
+            currentItemTime = totalDuration; 
+            currentItemPos = 130;
+            
+            el.timeGauge.className = 'h-full w-full bg-cyan-500';
+            el.timeGauge.style.width = '100%';
+
+            el.item.style.transition = '';
+            el.item.style.position = 'absolute';
+            el.item.style.left = `${currentItemPos}%`;
+            el.item.style.top = '50%';
+            el.item.style.transform = 'translate(-50%, -50%)';
+            
+            el.item.classList.remove('locked', 'opacity-0', 'scale-50', 'dragging', 'border-red-500', 'border-cyan-400');
+            el.item.classList.add('border-slate-600');
+            
             updateItemDisplay();
         };
 
@@ -523,28 +637,51 @@
             if (boxId === correct.id) {
                 score++; el.score.innerText = score;
                 el.feedback.innerHTML = `<div class="text-cyan-400 text-lg md:text-xl">⭕️ 正解！</div>`;
-                el.item.classList.replace('border-slate-500', 'border-cyan-400');
+                el.item.classList.replace('border-slate-600', 'border-cyan-400');
+                
                 const r = hitEl.getBoundingClientRect();
                 explode(r.left + r.width/2, r.top + r.height/2, dropped.color);
                 
                 idx++;
-                safeSetTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 400);
-                safeSetTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 900);
+                safeTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 400);
+                safeTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 900);
             } else {
                 const explanation = getExplanation(item);
                 el.feedback.innerHTML = `
                     <div class="text-red-500 text-sm md:text-lg">❌【${dropped.name}】ではない！</div>
                     <div class="text-yellow-300 text-[10px] md:text-sm mt-1 animate-pulse">💡 ${explanation}</div>
                 `;
-                el.item.classList.replace('border-slate-500', 'border-red-500');
+                el.item.classList.replace('border-slate-600', 'border-red-500');
                 
                 mistakes.push({ item, exp: correct.name });
                 pushMistake(item, correct.name);
                 
                 idx++;
-                safeSetTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 600);
-                safeSetTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 3000);
+                safeTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 400);
+                safeTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 2000);
             }
+        };
+
+        const handleTimeOver = () => {
+            if (isAnimating) return;
+            isAnimating = true;
+            el.item.classList.add('locked');
+            
+            const item = items[idx];
+            const correctBox = config[currentStage].boxes.find(b => b.check(item));
+            
+            el.feedback.innerHTML = `
+                <div class="text-red-500 text-sm md:text-lg">⏰ タイムオーバー！</div>
+                <div class="text-yellow-300 text-[10px] md:text-sm mt-1 animate-pulse">💡 正解は【${correctBox.name}】だ！</div>
+            `;
+            el.item.classList.replace('border-slate-600', 'border-red-500');
+            
+            mistakes.push({ item, exp: correctBox.name });
+            pushMistake(item, correctBox.name);
+            
+            idx++;
+            safeTimeout(() => el.item.classList.add('opacity-0', 'scale-50'), 400);
+            safeTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 2000);
         };
 
         const explode = (x, y, cls) => {
@@ -565,9 +702,40 @@
             }
         };
 
+        const endMission = () => {
+            isPlaying = false;
+            cancelAnimationFrame(conveyorAnimId);
+            clearAllTimeouts();
+
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('finalTotal').innerText = items.length;
+
+            const list = document.getElementById('mistakeList');
+            const noMsg = document.getElementById('noMistakeMsg');
+            list.innerHTML = '';
+            if (mistakes.length === 0) {
+                noMsg.classList.remove('hidden');
+                list.classList.add('hidden');
+            } else {
+                noMsg.classList.add('hidden');
+                list.classList.remove('hidden');
+                mistakes.forEach(m => {
+                    const li = document.createElement('li');
+                    li.className = "bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs";
+                    li.innerHTML = `<div class='flex justify-between font-black mb-1 text-slate-300'><span>${m.item.name} (${m.item.formula})</span><span class='text-red-500'>正解: ${m.exp}</span></div>`;
+                    list.appendChild(li);
+                });
+            }
+        };
+
         window.resetToMenu = () => {
-            clearAllTimeouts(); // 裏で動いているタイマーをすべて停止
+            isPlaying = false;
+            clearAllTimeouts();
+            cancelAnimationFrame(conveyorAnimId);
             idx = 0; isAnimating = false;
+            
             document.getElementById('gameScreen').classList.add('hidden');
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('notebookScreen').classList.add('hidden');
@@ -620,29 +788,18 @@
         // --- 次世代ドラッグシステム (Pointer Events) ---
         let dragInfo = { active: false, startX: 0, startY: 0, pointerId: null };
 
-        // 指の位置ではなく、カードの中心位置で当たり判定を行うように改良
-        const getBoxUnderItem = () => {
-            const rect = el.item.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            const boxes = document.querySelectorAll('.box');
-            for (let b of boxes) {
-                const r = b.getBoundingClientRect();
-                if (centerX >= r.left && centerX <= r.right && centerY >= r.top && centerY <= r.bottom) return b;
-            }
-            return null;
-        };
-
         const startDrag = (e, rect) => {
             if (isAnimating) return;
             dragInfo.active = true;
             dragInfo.pointerId = e.pointerId;
             dragInfo.startX = e.clientX - rect.left;
             dragInfo.startY = e.clientY - rect.top;
+            
             el.item.classList.add('dragging');
             el.item.style.position = 'fixed';
             el.item.style.left = rect.left + 'px';
             el.item.style.top = rect.top + 'px';
+            el.item.style.transform = 'none'; 
         };
 
         const moveDrag = (e) => {
@@ -652,7 +809,7 @@
             el.item.style.left = `${x}px`;
             el.item.style.top = `${y}px`;
 
-            const hit = getBoxUnderItem(); // カードの中心で判定
+            const hit = getBoxUnder();
             document.querySelectorAll('.box').forEach(b => {
                 if (hit && b.id === hit.id) b.classList.add('drag-over');
                 else b.classList.remove('drag-over');
@@ -664,22 +821,34 @@
             dragInfo.active = false;
             el.item.classList.remove('dragging');
             
-            const hit = getBoxUnderItem(); // カードの中心で判定
+            const hit = getBoxUnder();
             document.querySelectorAll('.box').forEach(b => b.classList.remove('drag-over'));
 
             if (hit && !isAnimating) {
                 handleDrop(hit.id, hit);
             } else {
-                el.item.style.transition = 'all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28)';
-                el.item.style.left = ''; el.item.style.top = '';
-                setTimeout(() => { 
-                    el.item.style.transition = '';
-                    el.item.style.position = '';
-                }, 400);
+                el.item.style.transition = 'all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)';
+                el.item.style.position = 'absolute';
+                el.item.style.left = `${currentItemPos}%`;
+                el.item.style.top = '50%';
+                el.item.style.transform = 'translate(-50%, -50%)';
+                safeTimeout(() => { el.item.style.transition = ''; }, 300);
             }
         };
 
-        // Pointer Events の登録
+        const getBoxUnder = () => {
+            const r = el.item.getBoundingClientRect();
+            const cx = r.left + r.width / 2;
+            const cy = r.top + r.height / 2;
+
+            const boxes = document.querySelectorAll('.box');
+            for (let b of boxes) {
+                const br = b.getBoundingClientRect();
+                if (cx >= br.left && cx <= br.right && cy >= br.top && cy <= br.bottom) return b;
+            }
+            return null;
+        };
+
         el.item.addEventListener('pointerdown', (e) => {
             if (e.pointerType === 'mouse' && e.button !== 0) return;
             const r = el.item.getBoundingClientRect();
@@ -688,10 +857,7 @@
         });
 
         el.item.addEventListener('pointermove', (e) => {
-            if (dragInfo.active) {
-                e.preventDefault();
-                moveDrag(e);
-            }
+            if (dragInfo.active) moveDrag(e);
         });
 
         el.item.addEventListener('pointerup', (e) => {
@@ -713,18 +879,24 @@
                 dragInfo.active = false;
                 el.item.classList.remove('dragging');
                 document.querySelectorAll('.box').forEach(b => b.classList.remove('drag-over'));
+                
                 el.item.style.transition = 'all 0.3s';
-                el.item.style.left = ''; el.item.style.top = '';
+                el.item.style.position = 'absolute';
+                el.item.style.left = `${currentItemPos}%`;
+                el.item.style.top = '50%';
+                el.item.style.transform = 'translate(-50%, -50%)';
+                
                 if(dragInfo.pointerId !== null && el.item.hasPointerCapture(dragInfo.pointerId)) {
                     el.item.releasePointerCapture(dragInfo.pointerId);
                 }
-                setTimeout(() => { el.item.style.transition = ''; el.item.style.position = ''; }, 300);
+                safeTimeout(() => { el.item.style.transition = ''; }, 300);
             } 
         });
 
-        // Initialize
-        checkTutorial();
-        await initializeFirebase();
+        window.addEventListener('DOMContentLoaded', async () => {
+            checkTutorial();
+            await initializeFirebase();
+        });
 
     </script>
 </body>
