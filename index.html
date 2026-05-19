@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ゴクソート (GOKU-SORT) - V8.7</title>
+    <title>ゴクソート (GOKU-SORT) - V8.9</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap');
@@ -121,7 +121,7 @@
     <header class="bg-slate-950/80 border-b border-slate-800 z-50 backdrop-blur-md pt-safe">
         <div class="container mx-auto flex justify-between items-center p-3 landscape:p-2">
             <h1 class="text-xl md:text-2xl font-black cyber-font tracking-tighter text-cyan-400 flex items-center gap-2">
-                <span class="animate-pulse">⚡</span> GOKU-SORT <span class="text-[10px] text-slate-600 border border-slate-800 px-1 rounded ml-1">V8.7</span>
+                <span class="animate-pulse">⚡</span> GOKU-SORT <span class="text-[10px] text-slate-600 border border-slate-800 px-1 rounded ml-1">V8.9</span>
             </h1>
             <div id="scoreBoard" class="hidden bg-slate-900 border border-slate-700 rounded-full px-4 py-1 flex items-center gap-3">
                 <span class="text-xs text-slate-500 font-bold tracking-widest">スコア</span>
@@ -211,33 +211,28 @@
                             <span>📖</span> 物質の分類マニュアル
                         </h3>
                         <div class="space-y-4 text-xs md:text-sm">
-                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-orange-500 shadow-sm">
                                 <p class="font-bold text-orange-400 mb-1 tracking-widest">【単体】</p>
                                 <p class="text-slate-300 leading-relaxed">1種類の元素記号（大文字1つ）からなる物質。<br><span class="text-slate-500 text-[10px]">例: O₂, Fe</span></p>
                             </div>
-                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-cyan-500 shadow-sm">
                                 <p class="font-bold text-cyan-400 mb-1 tracking-widest">【化合物】</p>
                                 <p class="text-slate-300 leading-relaxed">2種類以上の元素記号（大文字2つ以上）からなる物質。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂</span></p>
                             </div>
-                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-fuchsia-500 shadow-sm">
                                 <p class="font-bold text-fuchsia-400 mb-1 tracking-widest">【混合物】</p>
-                                <p class="text-slate-300 leading-relaxed">複数の物質が混ざったもの。化学式1つで書けない。<br><span class="text-slate-500 text-[10px]">例: 空気, 塩酸(HCl+水), 海水</span></p>
+                                <p class="text-slate-300 leading-relaxed">複数の物質が混ざったもの。化学式1つで書けない。<br><span class="text-slate-500 text-[10px]">例: 空気, 塩酸(HCl+水), 海水, 石油</span></p>
                             </div>
-                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-slate-300 shadow-sm">
                                 <p class="font-bold text-slate-200 mb-1 tracking-widest">【分子から作られている】</p>
                                 <p class="text-slate-300 leading-relaxed">非金属のみでできた、独立した粒。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂</span></p>
                             </div>
-                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-slate-600 shadow-sm">
                                 <p class="font-bold text-slate-400 mb-2 tracking-widest">【分子から作られていない】</p>
                                 <p class="text-slate-300 text-[11px] md:text-xs mb-2 leading-relaxed">独立した粒（分子）の区切りがなく、原子やイオンがブロックのように<span class="text-yellow-300 font-bold">無限に結びついて塊になっている</span>物質。</p>
                                 <ul class="text-slate-300 pl-4 space-y-2 list-disc marker:text-cyan-500 text-[11px] md:text-xs">
                                     <li><span class="text-yellow-400 font-bold">金属の仲間:</span><br>金属原子が規則正しく無限に並んでいる。<br><span class="text-slate-500 text-[10px]">例: Fe, Cu, Ag</span></li>
-                                    <li><span class="text-green-400 font-bold">＋と－のイオンの仲間:</span><br>金属と非金属が合体し、イオンが無限に連なる。<br><span class="text-slate-500 text-[10px]">例: NaCl, CuO</span></li>
+                                    <li><span class="text-green-400 font-bold">＋と－のイオンの仲間:</span><br>金属と非金属が合体し、イオンが無限に連なる。<br><span class="text-slate-500 text-[10px]">例: NaCl, CuO, CaCO₃</span></li>
                                     <li class="text-[10px] text-orange-300 leading-tight"><span class="font-bold">要注意の例外:</span><br>炭素(C)は非金属だが、網目状に無限に結びつく。</li>
                                 </ul>
                             </div>
@@ -248,17 +243,21 @@
         </div>
 
         <!-- ログ画面 -->
-        <div id="notebookScreen" class="absolute inset-0 bg-slate-950 z-[110] hidden flex-col items-center p-6 backdrop-blur-2xl">
-            <h2 class="text-2xl font-black text-cyan-400 mb-6 tracking-widest flex items-center gap-3">
-                <span class="bg-cyan-500/10 p-2 rounded-lg">📋</span> 苦手ノート
-            </h2>
-            <div class="w-full max-w-2xl flex-grow overflow-y-auto mb-6 bg-slate-900/50 rounded-xl border border-slate-800 p-4 custom-scroll">
-                <ul id="notebookList" class="space-y-3"></ul>
-                <div id="notebookEmpty" class="hidden flex flex-col items-center justify-center h-full text-slate-600">
+        <div id="notebookScreen" class="absolute inset-0 bg-slate-950 z-[110] hidden flex-col items-center h-full p-4 md:p-6 backdrop-blur-2xl">
+            <div class="flex justify-between items-center w-full max-w-2xl mb-4 pt-safe shrink-0">
+                <h2 class="text-xl md:text-2xl font-black text-cyan-400 tracking-widest flex items-center gap-3">
+                    <span class="bg-cyan-500/10 p-2 rounded-lg">📋</span> 苦手ノート
+                </h2>
+                <!-- 画面上部に固定の戻るボタン -->
+                <button onclick="closeNotebook()" class="bg-slate-800/80 border border-slate-600 text-slate-200 hover:text-white hover:bg-slate-700 px-4 py-2 rounded-full font-bold text-sm shadow-lg backdrop-blur transition">✖ 閉じる</button>
+            </div>
+            
+            <div class="w-full max-w-2xl flex-grow overflow-y-auto mb-4 bg-slate-900/50 rounded-xl border border-slate-800 p-4 custom-scroll relative">
+                <ul id="notebookList" class="space-y-3 pb-safe"></ul>
+                <div id="notebookEmpty" class="hidden flex-col items-center justify-center h-full text-slate-600 pb-safe">
                     <p class="font-bold">まだ間違い記録がありません。</p>
                 </div>
             </div>
-            <button onclick="closeNotebook()" class="btn-cyber bg-slate-800 text-white py-4 px-12 rounded-xl font-bold tracking-widest border border-slate-600">◀ もどる</button>
         </div>
 
         <!-- ゲームプレイ画面 -->
@@ -282,7 +281,8 @@
                     </div>
 
                     <div class="absolute inset-0 overflow-hidden pointer-events-none rounded-2xl">
-                        <div id="currentItem" class="pointer-events-auto touch-safe bg-slate-800 border-[3px] border-slate-600 rounded-xl p-3 shadow-2xl flex flex-col items-center justify-center min-h-[4.5rem] md:min-h-[7rem] landscape:min-h-[4rem] w-[40%] max-w-[12rem] text-center break-words absolute top-1/2 -translate-y-1/2 z-[60] transition-opacity duration-300"></div>
+                        <!-- カード要素 -->
+                        <div id="currentItem" class="pointer-events-auto touch-safe bg-slate-800 border-[3px] border-slate-600 rounded-xl p-3 shadow-2xl flex flex-col items-center justify-center min-h-[4.5rem] md:min-h-[7rem] landscape:min-h-[4rem] w-[40%] max-w-[12rem] text-center break-words absolute top-1/2 -translate-y-1/2 z-[60]"></div>
                     </div>
                 </div>
 
@@ -303,26 +303,32 @@
         </div>
 
         <!-- 結果画面 -->
-        <div id="resultScreen" class="absolute inset-0 bg-slate-950/98 z-[150] hidden flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto">
-            <h2 class="text-4xl md:text-6xl font-black text-white mb-8 cyber-font tracking-widest">FINISH!</h2>
+        <div id="resultScreen" class="absolute inset-0 bg-slate-950/98 z-[150] hidden flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto pt-safe pb-safe">
+            <h2 class="text-4xl md:text-6xl font-black text-white mb-4 cyber-font tracking-widest">FINISH!</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
+            <div id="resultSettings" class="flex flex-wrap justify-center gap-2 mb-8 text-[10px] md:text-xs font-bold text-cyan-500 tracking-widest">
+                <span class="bg-slate-900/80 border border-slate-700 px-3 py-1 rounded-full"><span id="r-stage"></span></span>
+                <span class="bg-slate-900/80 border border-slate-700 px-3 py-1 rounded-full"><span id="r-diff"></span></span>
+                <span class="bg-slate-900/80 border border-slate-700 px-3 py-1 rounded-full"><span id="r-count"></span>問プレイ</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl shrink-0">
                 <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col items-center justify-center shadow-2xl relative overflow-hidden">
                     <div class="scanline"></div>
                     <p class="text-xs font-black text-cyan-500 mb-2 tracking-[0.3em]">正解スコア</p>
                     <div class="text-6xl md:text-8xl font-black cyber-font text-white"><span id="finalScore"></span><span class="text-slate-700 text-3xl mx-2">/</span><span id="finalTotal" class="text-slate-500 text-4xl"></span></div>
                 </div>
 
-                <div class="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 flex flex-col">
-                    <h3 class="font-black text-slate-300 text-sm mb-4 border-b border-slate-800 pb-2 flex items-center gap-2">
+                <div class="bg-slate-900/50 border border-slate-800 rounded-3xl p-6 flex flex-col min-h-[200px]">
+                    <h3 class="font-black text-slate-300 text-sm mb-4 border-b border-slate-800 pb-2 flex items-center gap-2 shrink-0">
                         <span>🔍</span> 今回の間違いログ
                     </h3>
-                    <ul id="mistakeList" class="flex-grow space-y-2 overflow-y-auto custom-scroll pr-2"></ul>
-                    <div id="noMistakeMsg" class="hidden py-10 text-center text-cyan-400 font-black">パーフェクト！✨</div>
+                    <ul id="mistakeList" class="flex-grow space-y-2 overflow-y-auto custom-scroll pr-2 relative z-10"></ul>
+                    <div id="noMistakeMsg" class="hidden flex-grow flex items-center justify-center text-cyan-400 font-black text-lg">パーフェクト！✨</div>
                 </div>
             </div>
 
-            <button onclick="resetToMenu()" class="mt-10 btn-cyber bg-cyan-600 text-white py-5 px-16 rounded-2xl font-black text-xl shadow-2xl tracking-widest">
+            <button onclick="resetToMenu()" class="mt-8 btn-cyber bg-cyan-600 text-white py-4 px-12 md:py-5 md:px-16 rounded-2xl font-black text-lg md:text-xl shadow-2xl tracking-widest shrink-0">
                 最初の画面にもどる
             </button>
         </div>
@@ -335,8 +341,15 @@
         import { getFirestore, doc, setDoc, collection, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         let db, auth, user, mistakeRecords = [];
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'goku-sort-v8-7';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'goku-sort-v8-9';
         let isFirebaseEnabled = false;
+        
+        // ★エラー修正2: ローカルストレージからのバックアップ読み込み
+        const LOCAL_STORAGE_KEY = 'goku_sort_mistakes_backup';
+        try {
+            const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+            if (saved) mistakeRecords = JSON.parse(saved);
+        } catch(e) { console.warn("LocalStorage read failed"); }
 
         const initializeFirebase = async () => {
             try {
@@ -356,10 +369,14 @@
                         user = u;
                         if (u) setupDataSync();
                     });
+                } else {
+                    // Firebase無効時はローカルデータを描画
+                    renderNotebook();
                 }
             } catch (err) { 
                 console.warn("Firebase Init Error", err); 
                 isFirebaseEnabled = false;
+                renderNotebook();
             }
         };
 
@@ -368,6 +385,8 @@
             const path = collection(db, 'artifacts', appId, 'users', user.uid, 'mistakes');
             onSnapshot(path, (snap) => {
                 mistakeRecords = snap.docs.map(d => d.data()).sort((a,b) => b.count - a.count);
+                // Firebaseのデータをローカルにもバックアップ保存
+                try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mistakeRecords)); } catch(e){}
                 renderNotebook();
             }, (err) => console.error("Sync Error", err));
         };
@@ -380,10 +399,12 @@
                     count: increment(1), updated: new Date().toISOString() 
                 }, { merge: true });
             } else {
+                // オフライン・エラー時でも記録を残す
                 let existing = mistakeRecords.find(m => m.name === item.name);
                 if (existing) existing.count++;
                 else mistakeRecords.push({ name: item.name, formula: item.formula, expected: exp, count: 1 });
                 mistakeRecords.sort((a,b) => b.count - a.count);
+                try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mistakeRecords)); } catch(e){}
                 renderNotebook();
             }
         };
@@ -419,8 +440,7 @@
             { name: "ブドウ糖", formula: "C₆H₁₂O₆", cat: "comp", mol: true, diff: 3 },
             { name: "塩化銅", formula: "CuCl₂", cat: "comp", mol: false, diff: 3 },
             { name: "真鍮", formula: "Cu + Zn", cat: "mix", mol: null, diff: 3 },
-            { name: "石油", formula: "混合物", cat: "mix", mol: null, diff: 3 },
-            { name: "炭酸水素ナトリウム", formula: "NaHCO₃", cat: "comp", mol: false, diff: 3 }
+            { name: "石油", formula: "種々の炭化水素", cat: "mix", mol: null, diff: 3 } 
         ];
 
         function getExplanation(item) {
@@ -447,6 +467,8 @@
         let lastTime = performance.now();
         let conveyorAnimId = null;
         let activeTimeouts = [];
+        
+        let playSettings = { stage: "", diff: "", count: 0 };
 
         const el = {
             item: document.getElementById('currentItem'),
@@ -508,9 +530,16 @@
             isAnimating = false;
             currentStage = stage;
             el.formula.checked = false;
+            
+            // ★エラー修正3: 前回のスタイルが残らないよう完全にクリア
+            el.item.style.cssText = '';
+            el.item.className = 'pointer-events-auto touch-safe bg-slate-800 border-[3px] border-slate-600 rounded-xl p-3 shadow-2xl flex flex-col items-center justify-center min-h-[4.5rem] md:min-h-[7rem] landscape:min-h-[4rem] w-[40%] max-w-[12rem] text-center break-words absolute top-1/2 z-[60] opacity-0';
 
             const diff = parseInt(document.querySelector('input[name="difficulty"]:checked').value);
             const count = document.querySelector('input[name="itemCount"]:checked').value;
+            
+            playSettings.stage = config[stage].title;
+            playSettings.diff = diff === 1 ? "初級スピード" : diff === 2 ? "中級スピード" : "上級スピード";
             
             totalDuration = (diff === 1 ? 12 : diff === 2 ? 9 : 6) * 1000;
             
@@ -524,6 +553,8 @@
             }
 
             let targetCount = count === 'all' ? pool.length : parseInt(count);
+            playSettings.count = targetCount;
+
             items = [];
             while (items.length < targetCount) {
                 let shuffledPool = shuffleArray(pool);
@@ -556,7 +587,6 @@
             showNext();
         };
 
-        // ★修正点1: ドラッグ中も時間は減るように独立（ズル防止）
         function conveyorLoop(currentTime) {
             if (!isPlaying) return;
             
@@ -565,7 +595,6 @@
             lastTime = currentTime;
 
             if (!isAnimating) {
-                // 掴んでいても時間は容赦なく減る
                 currentItemTime -= dt;
                 
                 let progress = 1 - (currentItemTime / totalDuration);
@@ -579,7 +608,6 @@
                 else el.timeGauge.className = 'h-full w-full transition-all duration-75 bg-cyan-500';
 
                 if (currentItemTime <= 0) {
-                    // 時間切れ：もし掴んでいたら強制的に剥がす
                     if (dragInfo.active) {
                         dragInfo.active = false;
                         el.item.classList.remove('dragging');
@@ -590,7 +618,6 @@
                     }
                     handleTimeOver();
                 } else if (!dragInfo.active) {
-                    // 掴んでいない時だけコンベアと一緒に動かす
                     el.item.style.left = `${currentItemPos}%`;
                 }
             }
@@ -613,17 +640,19 @@
             el.item.style.position = 'absolute';
             el.item.style.left = `${currentItemPos}%`;
             el.item.style.top = '50%';
+            // transformを明示的に指定してインラインで上書き
             el.item.style.transform = 'translate(-50%, -50%)';
+            el.item.style.opacity = '0';
             
-            el.item.classList.remove('locked', 'scale-50', 'dragging', 'border-red-500', 'border-cyan-400', 'translate-y-[200px]', 'rotate-12');
-            el.item.classList.add('border-slate-600', 'opacity-0');
+            el.item.classList.remove('locked', 'dragging', 'border-red-500', 'border-cyan-400');
+            el.item.classList.add('border-slate-600');
             
             updateItemDisplay();
 
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     el.item.style.transition = 'opacity 0.3s ease-out';
-                    el.item.classList.remove('opacity-0');
+                    el.item.style.opacity = '1';
                 });
             });
         };
@@ -658,8 +687,10 @@
                 
                 idx++;
                 safeTimeout(() => {
+                    // ★エラー修正1: アニメーションをインラインで直接上書きして確実に動かす
                     el.item.style.transition = 'all 0.4s ease-in';
-                    el.item.classList.add('opacity-0', 'scale-50');
+                    el.item.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                    el.item.style.opacity = '0';
                 }, 400);
                 safeTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 900);
             } else {
@@ -675,8 +706,10 @@
                 
                 idx++;
                 safeTimeout(() => {
+                    // ★エラー修正1: アニメーションをインラインで直接上書き
                     el.item.style.transition = 'all 0.4s ease-in';
-                    el.item.classList.add('opacity-0', 'scale-50');
+                    el.item.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                    el.item.style.opacity = '0';
                 }, 400);
                 safeTimeout(() => { el.feedback.innerHTML = ""; showNext(); }, 2500);
             }
@@ -696,8 +729,10 @@
             `;
             el.item.classList.replace('border-slate-600', 'border-red-500');
             
+            // ★エラー修正1: ボッシュートアニメーションをインラインで直接上書き
             el.item.style.transition = 'all 0.5s cubic-bezier(0.5, -0.5, 1, 1)';
-            el.item.classList.add('translate-y-[200px]', 'rotate-12', 'opacity-0');
+            el.item.style.transform = 'translate(-50%, 200px) rotate(12deg)';
+            el.item.style.opacity = '0';
             
             mistakes.push({ item, exp: correctBox.name });
             pushMistake(item, correctBox.name);
@@ -731,6 +766,11 @@
 
             document.getElementById('gameScreen').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');
+            
+            document.getElementById('r-stage').innerText = playSettings.stage;
+            document.getElementById('r-diff').innerText = playSettings.diff;
+            document.getElementById('r-count').innerText = playSettings.count;
+
             document.getElementById('finalScore').innerText = score;
             document.getElementById('finalTotal').innerText = items.length;
 
@@ -745,7 +785,7 @@
                 list.classList.remove('hidden');
                 mistakes.forEach(m => {
                     const li = document.createElement('li');
-                    li.className = "bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs";
+                    li.className = "bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs shrink-0";
                     li.innerHTML = `<div class='flex justify-between font-black mb-1 text-slate-300'><span>${m.item.name} (${m.item.formula})</span><span class='text-red-500'>正解: ${m.exp}</span></div>`;
                     list.appendChild(li);
                 });
@@ -769,11 +809,13 @@
         window.openNotebook = () => {
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('notebookScreen').classList.remove('hidden');
+            document.getElementById('notebookScreen').classList.add('flex');
             renderNotebook();
         };
 
         window.closeNotebook = () => {
             document.getElementById('notebookScreen').classList.add('hidden');
+            document.getElementById('notebookScreen').classList.remove('flex');
             document.getElementById('startScreen').classList.remove('hidden');
         };
 
@@ -781,11 +823,16 @@
             const l = document.getElementById('notebookList');
             const e = document.getElementById('notebookEmpty');
             l.innerHTML = '';
-            if (mistakeRecords.length === 0) { e.classList.remove('hidden'); return; }
+            if (mistakeRecords.length === 0) { 
+                e.classList.remove('hidden'); 
+                e.classList.add('flex');
+                return; 
+            }
             e.classList.add('hidden');
+            e.classList.remove('flex');
             mistakeRecords.forEach((m, i) => {
                 const li = document.createElement('li');
-                li.className = "bg-slate-900 p-3 rounded-xl flex justify-between items-center border border-slate-800";
+                li.className = "bg-slate-900 p-3 rounded-xl flex justify-between items-center border border-slate-800 shrink-0";
                 li.innerHTML = `<div class='flex items-center gap-3'><span class='text-slate-600 cyber-font'>#${i+1}</span><div><div class='font-black text-slate-200'>${m.name} <span class="font-mono text-slate-400 ml-1 text-[10px]">(${m.formula})</span></div><div class='text-[9px] text-slate-500 font-bold'>正解: ${m.expected}</div></div></div><div class="text-red-500 font-black text-xl cyber-font">${m.count}</div>`;
                 l.appendChild(li);
             });
