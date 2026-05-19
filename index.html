@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ゴクソート (GOKU-SORT) - V8.9</title>
+    <title>ゴクソート (GOKU-SORT) - V9.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap');
@@ -103,6 +103,8 @@
 
         .touch-safe { 
             touch-action: none;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
             cursor: grab;
         }
 
@@ -121,7 +123,7 @@
     <header class="bg-slate-950/80 border-b border-slate-800 z-50 backdrop-blur-md pt-safe">
         <div class="container mx-auto flex justify-between items-center p-3 landscape:p-2">
             <h1 class="text-xl md:text-2xl font-black cyber-font tracking-tighter text-cyan-400 flex items-center gap-2">
-                <span class="animate-pulse">⚡</span> GOKU-SORT <span class="text-[10px] text-slate-600 border border-slate-800 px-1 rounded ml-1">V8.9</span>
+                <span class="animate-pulse">⚡</span> GOKU-SORT <span class="text-[10px] text-slate-600 border border-slate-800 px-1 rounded ml-1">V9.2</span>
             </h1>
             <div id="scoreBoard" class="hidden bg-slate-900 border border-slate-700 rounded-full px-4 py-1 flex items-center gap-3">
                 <span class="text-xs text-slate-500 font-bold tracking-widest">スコア</span>
@@ -211,28 +213,33 @@
                             <span>📖</span> 物質の分類マニュアル
                         </h3>
                         <div class="space-y-4 text-xs md:text-sm">
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-orange-500 shadow-sm">
                                 <p class="font-bold text-orange-400 mb-1 tracking-widest">【単体】</p>
                                 <p class="text-slate-300 leading-relaxed">1種類の元素記号（大文字1つ）からなる物質。<br><span class="text-slate-500 text-[10px]">例: O₂, Fe</span></p>
                             </div>
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-cyan-500 shadow-sm">
                                 <p class="font-bold text-cyan-400 mb-1 tracking-widest">【化合物】</p>
                                 <p class="text-slate-300 leading-relaxed">2種類以上の元素記号（大文字2つ以上）からなる物質。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂</span></p>
                             </div>
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-fuchsia-500 shadow-sm">
                                 <p class="font-bold text-fuchsia-400 mb-1 tracking-widest">【混合物】</p>
                                 <p class="text-slate-300 leading-relaxed">複数の物質が混ざったもの。化学式1つで書けない。<br><span class="text-slate-500 text-[10px]">例: 空気, 塩酸(HCl+水), 海水, 石油</span></p>
                             </div>
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-slate-300 shadow-sm">
                                 <p class="font-bold text-slate-200 mb-1 tracking-widest">【分子から作られている】</p>
-                                <p class="text-slate-300 leading-relaxed">非金属のみでできた、独立した粒。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂</span></p>
+                                <p class="text-slate-300 leading-relaxed">非金属のみでできた、独立した粒。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂, HCl</span></p>
                             </div>
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-slate-600 shadow-sm">
                                 <p class="font-bold text-slate-400 mb-2 tracking-widest">【分子から作られていない】</p>
                                 <p class="text-slate-300 text-[11px] md:text-xs mb-2 leading-relaxed">独立した粒（分子）の区切りがなく、原子やイオンがブロックのように<span class="text-yellow-300 font-bold">無限に結びついて塊になっている</span>物質。</p>
                                 <ul class="text-slate-300 pl-4 space-y-2 list-disc marker:text-cyan-500 text-[11px] md:text-xs">
-                                    <li><span class="text-yellow-400 font-bold">金属の仲間:</span><br>金属原子が規則正しく無限に並んでいる。<br><span class="text-slate-500 text-[10px]">例: Fe, Cu, Ag</span></li>
-                                    <li><span class="text-green-400 font-bold">＋と－のイオンの仲間:</span><br>金属と非金属が合体し、イオンが無限に連なる。<br><span class="text-slate-500 text-[10px]">例: NaCl, CuO, CaCO₃</span></li>
+                                    <li><span class="text-yellow-400 font-bold">金属の仲間:</span><br>金属原子が規則正しく無限に並んでいる。<br><span class="text-slate-500 text-[10px]">例: Fe, Cu, Ag, Au</span></li>
+                                    <li><span class="text-green-400 font-bold">＋と－のイオンの仲間:</span><br>金属と非金属が合体し、イオンが無限に連なる。<br><span class="text-slate-500 text-[10px]">例: NaCl, CuO</span></li>
                                     <li class="text-[10px] text-orange-300 leading-tight"><span class="font-bold">要注意の例外:</span><br>炭素(C)は非金属だが、網目状に無限に結びつく。</li>
                                 </ul>
                             </div>
@@ -248,7 +255,6 @@
                 <h2 class="text-xl md:text-2xl font-black text-cyan-400 tracking-widest flex items-center gap-3">
                     <span class="bg-cyan-500/10 p-2 rounded-lg">📋</span> 苦手ノート
                 </h2>
-                <!-- 画面上部に固定の戻るボタン -->
                 <button onclick="closeNotebook()" class="bg-slate-800/80 border border-slate-600 text-slate-200 hover:text-white hover:bg-slate-700 px-4 py-2 rounded-full font-bold text-sm shadow-lg backdrop-blur transition">✖ 閉じる</button>
             </div>
             
@@ -261,7 +267,7 @@
         </div>
 
         <!-- ゲームプレイ画面 -->
-        <div id="gameScreen" class="hidden flex flex-col h-full">
+        <div id="gameScreen" class="hidden flex-col h-full touch-none">
             
             <div class="relative mb-6 z-[60]">
                 <div class="flex justify-between items-start mb-2 px-1 min-h-[3rem] md:min-h-[4rem]">
@@ -277,17 +283,18 @@
                     </div>
                     
                     <div class="absolute top-0 left-0 w-full h-[6px] bg-slate-800 rounded-t-2xl overflow-hidden z-20">
-                        <div id="timeGauge" class="h-full bg-cyan-500 w-full transition-all duration-75"></div>
+                        <!-- ★UI改善：色の変化をより滑らかに -->
+                        <div id="timeGauge" class="h-full bg-cyan-500 w-full transition-all duration-75 transition-colors duration-500"></div>
                     </div>
 
                     <div class="absolute inset-0 overflow-hidden pointer-events-none rounded-2xl">
-                        <!-- カード要素 -->
-                        <div id="currentItem" class="pointer-events-auto touch-safe bg-slate-800 border-[3px] border-slate-600 rounded-xl p-3 shadow-2xl flex flex-col items-center justify-center min-h-[4.5rem] md:min-h-[7rem] landscape:min-h-[4rem] w-[40%] max-w-[12rem] text-center break-words absolute top-1/2 -translate-y-1/2 z-[60]"></div>
+                        <div id="currentItem" class="pointer-events-auto touch-safe bg-slate-800 border-[3px] border-slate-600 rounded-xl p-3 shadow-2xl flex flex-col items-center justify-center min-h-[4.5rem] md:min-h-[7rem] landscape:min-h-[4rem] w-[40%] max-w-[12rem] text-center break-words absolute top-1/2 -translate-y-1/2 z-[60] transition-opacity duration-300"></div>
                     </div>
                 </div>
 
                 <div class="mt-4 flex justify-center">
-                    <label class="group flex items-center gap-3 bg-slate-900/80 px-6 py-2 rounded-full border border-slate-800 hover:border-cyan-500/50 transition-all cursor-pointer">
+                    <!-- ★UIエラー対策：アニメーション中はスイッチをロックするためのIDを追加 -->
+                    <label id="hintToggleLabel" class="group flex items-center gap-3 bg-slate-900/80 px-6 py-2 rounded-full border border-slate-800 hover:border-cyan-500/50 transition-all cursor-pointer">
                         <span class="text-xs font-black text-slate-500 group-hover:text-cyan-400 transition-colors tracking-widest">📝 化学式のヒント</span>
                         <input type="checkbox" id="toggleFormula" class="sr-only peer" onchange="updateItemDisplay()">
                         <div class="relative w-12 h-6 bg-slate-950 rounded-full border border-slate-800 peer-checked:bg-cyan-600 transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-600 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-6 peer-checked:after:bg-white"></div>
@@ -340,16 +347,15 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, collection, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        let db, auth, user, mistakeRecords = [];
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'goku-sort-v8-9';
+        let db, auth, user;
+        let mistakeRecords = []; 
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'goku-sort-v9-2';
         let isFirebaseEnabled = false;
-        
-        // ★エラー修正2: ローカルストレージからのバックアップ読み込み
-        const LOCAL_STORAGE_KEY = 'goku_sort_mistakes_backup';
+
         try {
-            const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-            if (saved) mistakeRecords = JSON.parse(saved);
-        } catch(e) { console.warn("LocalStorage read failed"); }
+            const localData = localStorage.getItem(`goku_mistakes_${appId}`);
+            if (localData) mistakeRecords = JSON.parse(localData);
+        } catch(e) {}
 
         const initializeFirebase = async () => {
             try {
@@ -369,14 +375,11 @@
                         user = u;
                         if (u) setupDataSync();
                     });
-                } else {
-                    // Firebase無効時はローカルデータを描画
-                    renderNotebook();
                 }
             } catch (err) { 
                 console.warn("Firebase Init Error", err); 
                 isFirebaseEnabled = false;
-                renderNotebook();
+                renderNotebook(); 
             }
         };
 
@@ -385,31 +388,43 @@
             const path = collection(db, 'artifacts', appId, 'users', user.uid, 'mistakes');
             onSnapshot(path, (snap) => {
                 mistakeRecords = snap.docs.map(d => d.data()).sort((a,b) => b.count - a.count);
-                // Firebaseのデータをローカルにもバックアップ保存
-                try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mistakeRecords)); } catch(e){}
+                saveToLocal(); 
                 renderNotebook();
-            }, (err) => console.error("Sync Error", err));
+            }, (err) => {
+                console.error("Sync Error", err);
+                renderNotebook(); 
+            });
+        };
+
+        const saveToLocal = () => {
+            try { localStorage.setItem(`goku_mistakes_${appId}`, JSON.stringify(mistakeRecords)); } catch(e){}
         };
 
         const pushMistake = async (item, exp) => {
             if (isFirebaseEnabled && user && db) {
-                const ref = doc(db, 'artifacts', appId, 'users', user.uid, 'mistakes', item.name);
-                await setDoc(ref, { 
-                    name: item.name, formula: item.formula, expected: exp, 
-                    count: increment(1), updated: new Date().toISOString() 
-                }, { merge: true });
+                try {
+                    const ref = doc(db, 'artifacts', appId, 'users', user.uid, 'mistakes', item.name);
+                    await setDoc(ref, { 
+                        name: item.name, formula: item.formula, expected: exp, 
+                        count: increment(1), updated: new Date().toISOString() 
+                    }, { merge: true });
+                } catch(e) { pushLocalMistake(item, exp); } 
             } else {
-                // オフライン・エラー時でも記録を残す
-                let existing = mistakeRecords.find(m => m.name === item.name);
-                if (existing) existing.count++;
-                else mistakeRecords.push({ name: item.name, formula: item.formula, expected: exp, count: 1 });
-                mistakeRecords.sort((a,b) => b.count - a.count);
-                try { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mistakeRecords)); } catch(e){}
-                renderNotebook();
+                pushLocalMistake(item, exp);
             }
         };
 
+        const pushLocalMistake = (item, exp) => {
+            let existing = mistakeRecords.find(m => m.name === item.name);
+            if (existing) existing.count++;
+            else mistakeRecords.push({ name: item.name, formula: item.formula, expected: exp, count: 1 });
+            mistakeRecords.sort((a,b) => b.count - a.count);
+            saveToLocal();
+            renderNotebook();
+        };
+
         const substances = [
+            // 初級 (15問)
             { name: "酸素", formula: "O₂", cat: "elem", mol: true, diff: 1 },
             { name: "水素", formula: "H₂", cat: "elem", mol: true, diff: 1 },
             { name: "水", formula: "H₂O", cat: "comp", mol: true, diff: 1 },
@@ -417,21 +432,30 @@
             { name: "鉄", formula: "Fe", cat: "elem", mol: false, diff: 1 },
             { name: "銅", formula: "Cu", cat: "elem", mol: false, diff: 1 },
             { name: "銀", formula: "Ag", cat: "elem", mol: false, diff: 1 },
+            { name: "アルミニウム", formula: "Al", cat: "elem", mol: false, diff: 1 },
             { name: "塩化ナトリウム", formula: "NaCl", cat: "comp", mol: false, diff: 1 },
             { name: "炭酸カルシウム", formula: "CaCO₃", cat: "comp", mol: false, diff: 1 },
             { name: "空気", formula: "N₂, O₂等", cat: "mix", mol: null, diff: 1 },
             { name: "海水", formula: "H₂O, NaCl等", cat: "mix", mol: null, diff: 1 },
+            { name: "砂糖水", formula: "C₁₂H₂₂O₁₁ + H₂O", cat: "mix", mol: null, diff: 1 },
             { name: "炭素", formula: "C", cat: "elem", mol: false, diff: 1 },
             { name: "窒素", formula: "N₂", cat: "elem", mol: true, diff: 1 },
+            
+            // 中級 (13問)
             { name: "塩素", formula: "Cl₂", cat: "elem", mol: true, diff: 2 },
             { name: "アンモニア", formula: "NH₃", cat: "comp", mol: true, diff: 2 },
             { name: "酸化銅", formula: "CuO", cat: "comp", mol: false, diff: 2 },
+            { name: "酸化マグネシウム", formula: "MgO", cat: "comp", mol: false, diff: 2 },
             { name: "塩酸", formula: "HCl + H₂O", cat: "mix", mol: null, diff: 2 },
+            { name: "塩化水素", formula: "HCl", cat: "comp", mol: true, diff: 2 },
             { name: "メタン", formula: "CH₄", cat: "comp", mol: true, diff: 2 },
             { name: "マグネシウム", formula: "Mg", cat: "elem", mol: false, diff: 2 },
             { name: "エタノール", formula: "C₂H₅OH", cat: "comp", mol: true, diff: 2 },
             { name: "酸化銀", formula: "Ag₂O", cat: "comp", mol: false, diff: 2 },
             { name: "硫化鉄", formula: "FeS", cat: "comp", mol: false, diff: 2 },
+            { name: "金", formula: "Au", cat: "elem", mol: false, diff: 2 },
+            
+            // 上級 (12問)
             { name: "ヨウ素", formula: "I₂", cat: "elem", mol: true, diff: 3 },
             { name: "オゾン", formula: "O₃", cat: "elem", mol: true, diff: 3 },
             { name: "水銀", formula: "Hg", cat: "elem", mol: false, diff: 3 },
@@ -439,8 +463,12 @@
             { name: "アルゴン", formula: "Ar", cat: "elem", mol: true, diff: 3 },
             { name: "ブドウ糖", formula: "C₆H₁₂O₆", cat: "comp", mol: true, diff: 3 },
             { name: "塩化銅", formula: "CuCl₂", cat: "comp", mol: false, diff: 3 },
+            { name: "硫酸銅", formula: "CuSO₄", cat: "comp", mol: false, diff: 3 },
+            { name: "二酸化硫黄", formula: "SO₂", cat: "comp", mol: true, diff: 3 },
             { name: "真鍮", formula: "Cu + Zn", cat: "mix", mol: null, diff: 3 },
-            { name: "石油", formula: "種々の炭化水素", cat: "mix", mol: null, diff: 3 } 
+            { name: "石油", formula: "種々の炭化水素", cat: "mix", mol: null, diff: 3 },
+            { name: "牛乳", formula: "水 + タンパク質等", cat: "mix", mol: null, diff: 3 },
+            { name: "炭酸水素ナトリウム", formula: "NaHCO₃", cat: "comp", mol: false, diff: 3 }
         ];
 
         function getExplanation(item) {
@@ -451,7 +479,7 @@
                     if (item.name.includes("炭素") || item.name.includes("ダイヤモンド")) return "炭素(C)は例外！原子が網目状に無限に連なる！";
                     return "金属だ！原子がブロックのように無限に並んで塊になっているぞ！";
                 }
-                if (item.name.includes("銀") || item.name.includes("銅") || item.name.includes("鉄") || item.name.includes("マグネシウム") || item.name.includes("ナトリウム") || item.name.includes("カリウム") || item.name.includes("カルシウム") || item.name.includes("アンモニウム")) {
+                if (item.name.includes("銀") || item.name.includes("銅") || item.name.includes("鉄") || item.name.includes("マグネシウム") || item.name.includes("ナトリウム") || item.name.includes("カリウム") || item.name.includes("カルシウム") || item.name.includes("アンモニウム") || item.name.includes("アルミニウム") || item.name.includes("金") || item.name.includes("バリウム")) {
                      return "金属が含まれている！＋と－のイオンが無限に結びついているぞ！";
                 }
                 return "＋と－のイオンが無限に結びついているぞ！";
@@ -478,7 +506,8 @@
             feedback: document.getElementById('feedbackMsg'),
             formula: document.getElementById('toggleFormula'),
             particle: document.getElementById('particle-container'),
-            timeGauge: document.getElementById('timeGauge')
+            timeGauge: document.getElementById('timeGauge'),
+            hintToggle: document.getElementById('hintToggleLabel')
         };
 
         const config = {
@@ -522,18 +551,24 @@
             return arr;
         }
 
+        // ★UI改修: アニメーション中の入力ロック
+        const setInputLock = (locked) => {
+            if (locked) {
+                el.hintToggle.classList.add('opacity-50', 'pointer-events-none');
+            } else {
+                el.hintToggle.classList.remove('opacity-50', 'pointer-events-none');
+            }
+        };
+
         window.startGame = (stage) => {
             clearAllTimeouts();
             cancelAnimationFrame(conveyorAnimId);
             
             isPlaying = true;
             isAnimating = false;
+            setInputLock(false);
             currentStage = stage;
             el.formula.checked = false;
-            
-            // ★エラー修正3: 前回のスタイルが残らないよう完全にクリア
-            el.item.style.cssText = '';
-            el.item.className = 'pointer-events-auto touch-safe bg-slate-800 border-[3px] border-slate-600 rounded-xl p-3 shadow-2xl flex flex-col items-center justify-center min-h-[4.5rem] md:min-h-[7rem] landscape:min-h-[4rem] w-[40%] max-w-[12rem] text-center break-words absolute top-1/2 z-[60] opacity-0';
 
             const diff = parseInt(document.querySelector('input[name="difficulty"]:checked').value);
             const count = document.querySelector('input[name="itemCount"]:checked').value;
@@ -567,6 +602,7 @@
             idx = score = 0; mistakes = [];
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.remove('hidden');
+            document.getElementById('gameScreen').classList.add('flex');
             document.getElementById('scoreBoard').classList.remove('hidden');
             document.getElementById('stageTitle').innerText = config[stage].title;
             el.score.innerText = score; el.total.innerText = items.length;
@@ -603,9 +639,10 @@
                 let gaugeWidth = Math.max(0, (currentItemTime / totalDuration) * 100);
                 el.timeGauge.style.width = `${gaugeWidth}%`;
                 
-                if (gaugeWidth < 25) el.timeGauge.className = 'h-full w-full transition-all duration-75 bg-red-500';
-                else if (gaugeWidth < 50) el.timeGauge.className = 'h-full w-full transition-all duration-75 bg-yellow-400';
-                else el.timeGauge.className = 'h-full w-full transition-all duration-75 bg-cyan-500';
+                // ★UI改善：トランジションで色が滑らかに変わる
+                if (gaugeWidth < 25) el.timeGauge.className = 'h-full w-full transition-all duration-75 transition-colors duration-500 bg-red-500';
+                else if (gaugeWidth < 50) el.timeGauge.className = 'h-full w-full transition-all duration-75 transition-colors duration-500 bg-yellow-400';
+                else el.timeGauge.className = 'h-full w-full transition-all duration-75 transition-colors duration-500 bg-cyan-500';
 
                 if (currentItemTime <= 0) {
                     if (dragInfo.active) {
@@ -618,6 +655,7 @@
                     }
                     handleTimeOver();
                 } else if (!dragInfo.active) {
+                    el.item.style.transform = `translate(-50%, -50%)`;
                     el.item.style.left = `${currentItemPos}%`;
                 }
             }
@@ -630,21 +668,22 @@
                 return;
             }
             isAnimating = false;
+            setInputLock(false); // ロック解除
             currentItemTime = totalDuration; 
             currentItemPos = 130;
             
-            el.timeGauge.className = 'h-full w-full bg-cyan-500';
+            el.timeGauge.className = 'h-full w-full transition-all duration-75 transition-colors duration-500 bg-cyan-500';
             el.timeGauge.style.width = '100%';
 
             el.item.style.transition = 'none';
             el.item.style.position = 'absolute';
             el.item.style.left = `${currentItemPos}%`;
             el.item.style.top = '50%';
-            // transformを明示的に指定してインラインで上書き
+            
             el.item.style.transform = 'translate(-50%, -50%)';
             el.item.style.opacity = '0';
             
-            el.item.classList.remove('locked', 'dragging', 'border-red-500', 'border-cyan-400');
+            el.item.classList.remove('locked', 'scale-50', 'dragging', 'border-red-500', 'border-cyan-400');
             el.item.classList.add('border-slate-600');
             
             updateItemDisplay();
@@ -671,6 +710,7 @@
         const handleDrop = async (boxId, hitEl) => {
             if (isAnimating) return;
             isAnimating = true;
+            setInputLock(true); // スイッチロック
             el.item.classList.add('locked');
 
             const item = items[idx];
@@ -687,7 +727,6 @@
                 
                 idx++;
                 safeTimeout(() => {
-                    // ★エラー修正1: アニメーションをインラインで直接上書きして確実に動かす
                     el.item.style.transition = 'all 0.4s ease-in';
                     el.item.style.transform = 'translate(-50%, -50%) scale(0.5)';
                     el.item.style.opacity = '0';
@@ -706,7 +745,6 @@
                 
                 idx++;
                 safeTimeout(() => {
-                    // ★エラー修正1: アニメーションをインラインで直接上書き
                     el.item.style.transition = 'all 0.4s ease-in';
                     el.item.style.transform = 'translate(-50%, -50%) scale(0.5)';
                     el.item.style.opacity = '0';
@@ -718,6 +756,7 @@
         const handleTimeOver = () => {
             if (isAnimating) return;
             isAnimating = true;
+            setInputLock(true); // スイッチロック
             el.item.classList.add('locked');
             
             const item = items[idx];
@@ -729,9 +768,8 @@
             `;
             el.item.classList.replace('border-slate-600', 'border-red-500');
             
-            // ★エラー修正1: ボッシュートアニメーションをインラインで直接上書き
-            el.item.style.transition = 'all 0.5s cubic-bezier(0.5, -0.5, 1, 1)';
-            el.item.style.transform = 'translate(-50%, 200px) rotate(12deg)';
+            el.item.style.transition = 'all 0.6s cubic-bezier(0.5, -0.5, 1, 1)';
+            el.item.style.transform = 'translate(-50%, calc(-50% + 250px)) rotate(15deg)';
             el.item.style.opacity = '0';
             
             mistakes.push({ item, exp: correctBox.name });
@@ -765,7 +803,9 @@
             clearAllTimeouts();
 
             document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('flex');
             document.getElementById('resultScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('flex');
             
             document.getElementById('r-stage').innerText = playSettings.stage;
             document.getElementById('r-diff').innerText = playSettings.diff;
@@ -799,7 +839,9 @@
             idx = 0; isAnimating = false;
             
             document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('flex');
             document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('flex');
             document.getElementById('notebookScreen').classList.add('hidden');
             document.getElementById('startScreen').classList.remove('hidden');
             document.getElementById('scoreBoard').classList.add('hidden');
@@ -858,7 +900,8 @@
         let dragInfo = { active: false, startX: 0, startY: 0, pointerId: null };
 
         const startDrag = (e, rect) => {
-            if (isAnimating) return;
+            if (isAnimating || dragInfo.active) return;
+            
             dragInfo.active = true;
             dragInfo.pointerId = e.pointerId;
             dragInfo.startX = e.clientX - rect.left;
@@ -927,18 +970,26 @@
         });
 
         el.item.addEventListener('pointermove', (e) => {
-            if (dragInfo.active) moveDrag(e);
+            if (dragInfo.active && e.pointerId === dragInfo.pointerId) moveDrag(e);
         });
 
         el.item.addEventListener('pointerup', (e) => {
-            if (dragInfo.active) {
+            if (dragInfo.active && e.pointerId === dragInfo.pointerId) {
                 try { el.item.releasePointerCapture(e.pointerId); } catch(e){}
                 endDrag(e);
             }
         });
 
         el.item.addEventListener('pointercancel', (e) => {
-            if (dragInfo.active) {
+            if (dragInfo.active && e.pointerId === dragInfo.pointerId) {
+                try { el.item.releasePointerCapture(e.pointerId); } catch(e){}
+                endDrag(e);
+            }
+        });
+
+        // ★エラー対策：画面外へカーソルがロストした際のフェイルセーフ
+        document.addEventListener('pointerleave', (e) => {
+            if (dragInfo.active && e.pointerId === dragInfo.pointerId) {
                 try { el.item.releasePointerCapture(e.pointerId); } catch(e){}
                 endDrag(e);
             }
