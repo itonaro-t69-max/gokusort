@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ゴクソート (GOKU-SORT) - V9.4</title>
+    <title>ゴクソート (GOKU-SORT) - V9.6</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap');
@@ -123,7 +123,7 @@
     <header class="bg-slate-950/80 border-b border-slate-800 z-50 backdrop-blur-md pt-safe">
         <div class="container mx-auto flex justify-between items-center p-3 landscape:p-2">
             <h1 class="text-xl md:text-2xl font-black cyber-font tracking-tighter text-cyan-400 flex items-center gap-2">
-                <span class="animate-pulse">⚡</span> GOKU-SORT <span class="text-[10px] text-slate-600 border border-slate-800 px-1 rounded ml-1">V9.4</span>
+                <span class="animate-pulse">⚡</span> GOKU-SORT <span class="text-[10px] text-slate-600 border border-slate-800 px-1 rounded ml-1">V9.6</span>
             </h1>
             <div id="scoreBoard" class="hidden bg-slate-900 border border-slate-700 rounded-full px-4 py-1 flex items-center gap-3">
                 <span class="text-xs text-slate-500 font-bold tracking-widest">スコア</span>
@@ -213,22 +213,27 @@
                             <span>📖</span> 物質の分類マニュアル
                         </h3>
                         <div class="space-y-4 text-xs md:text-sm">
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-orange-500 shadow-sm">
                                 <p class="font-bold text-orange-400 mb-1 tracking-widest">【単体】</p>
                                 <p class="text-slate-300 leading-relaxed">1種類の元素記号（大文字1つ）からなる物質。<br><span class="text-slate-500 text-[10px]">例: O₂, Fe</span></p>
                             </div>
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-cyan-500 shadow-sm">
                                 <p class="font-bold text-cyan-400 mb-1 tracking-widest">【化合物】</p>
                                 <p class="text-slate-300 leading-relaxed">2種類以上の元素記号（大文字2つ以上）からなる物質。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂</span></p>
                             </div>
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-fuchsia-500 shadow-sm">
                                 <p class="font-bold text-fuchsia-400 mb-1 tracking-widest">【混合物】</p>
-                                <p class="text-slate-300 leading-relaxed">複数の物質が混ざったもの。化学式1つで書けない。<br><span class="text-slate-500 text-[10px]">例: 空気, 塩酸(HCl+水), 海水, 石油</span></p>
+                                <p class="text-slate-300 leading-relaxed">複数の純物質が混ざったもの。化学式1つで書けない。<br><span class="text-slate-500 text-[10px]">例: 空気, 塩酸(HCl+水), 海水, 砂糖水</span></p>
                             </div>
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-slate-300 shadow-sm">
                                 <p class="font-bold text-slate-200 mb-1 tracking-widest">【分子から作られている】</p>
-                                <p class="text-slate-300 leading-relaxed">非金属のみでできた、独立した粒。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂, HCl</span></p>
+                                <p class="text-slate-300 leading-relaxed">非金属のみでできた、独立した粒。<br><span class="text-slate-500 text-[10px]">例: H₂O, CO₂, HCl(塩化水素)</span></p>
                             </div>
+                            
                             <div class="bg-slate-800/80 p-3 rounded-xl border-l-4 border-slate-600 shadow-sm">
                                 <p class="font-bold text-slate-400 mb-2 tracking-widest">【分子から作られていない】</p>
                                 <p class="text-slate-300 text-[11px] md:text-xs mb-2 leading-relaxed">独立した粒（分子）の区切りがなく、原子やイオンがブロックのように<span class="text-yellow-300 font-bold">無限に結びついて塊になっている</span>物質。</p>
@@ -278,7 +283,8 @@
                     </div>
                     
                     <div class="absolute top-0 left-0 w-full h-[6px] bg-slate-800 rounded-t-2xl overflow-hidden z-20">
-                        <div id="timeGauge" class="h-full bg-cyan-500 w-full transition-all duration-75 transition-colors duration-500"></div>
+                        <!-- ★UI改善: transition-colorsのみにし、widthのカクつきを完全に排除 -->
+                        <div id="timeGauge" class="h-full transition-colors duration-500 bg-cyan-500"></div>
                     </div>
 
                     <div class="absolute inset-0 overflow-hidden pointer-events-none rounded-2xl">
@@ -342,10 +348,9 @@
 
         let db, auth, user;
         let mistakeRecords = []; 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'goku-sort-v9-4';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'goku-sort-v9-6';
         let isFirebaseEnabled = false;
 
-        // ローカルバックアップの読み込み
         try {
             const localData = localStorage.getItem(`goku_mistakes_${appId}`);
             if (localData) mistakeRecords = JSON.parse(localData);
@@ -377,14 +382,12 @@
             }
         };
 
-        // ★エラー対策：オフライン（ローカル）とクラウドのデータを賢く統合(マージ)する
         const setupDataSync = () => {
             if (!user) return;
             const path = collection(db, 'artifacts', appId, 'users', user.uid, 'mistakes');
             onSnapshot(path, (snap) => {
                 const cloudData = snap.docs.map(d => d.data());
                 
-                // クラウドとローカルを比較し、間違い回数が多い方（最新の努力）を採用する
                 cloudData.forEach(cItem => {
                     let lItem = mistakeRecords.find(m => m.name === cItem.name);
                     if (lItem) {
@@ -407,9 +410,7 @@
             try { localStorage.setItem(`goku_mistakes_${appId}`, JSON.stringify(mistakeRecords)); } catch(e){}
         };
 
-        // 保存処理
         const pushMistake = async (item, exp) => {
-            // まずローカル（画面上）のデータを確実に更新
             let existing = mistakeRecords.find(m => m.name === item.name);
             if (existing) existing.count++;
             else mistakeRecords.push({ name: item.name, formula: item.formula, expected: exp, count: 1 });
@@ -417,7 +418,6 @@
             saveToLocal();
             renderNotebook();
 
-            // クラウドが使えるなら、最新のローカルの数字でクラウドを上書きする
             if (isFirebaseEnabled && user && db) {
                 try {
                     const ref = doc(db, 'artifacts', appId, 'users', user.uid, 'mistakes', item.name);
@@ -431,7 +431,6 @@
         };
 
         const substances = [
-            // 全40問
             { name: "酸素", formula: "O₂", cat: "elem", mol: true },
             { name: "水素", formula: "H₂", cat: "elem", mol: true },
             { name: "水", formula: "H₂O", cat: "comp", mol: true },
@@ -489,6 +488,15 @@
             }
             return "";
         }
+
+        const getFullCategoryName = (name) => {
+            const item = substances.find(s => s.name === name);
+            if (!item) return "不明";
+            if (item.cat === 'mix') return "混合物";
+            const c = item.cat === 'elem' ? "単体" : "化合物";
+            const m = item.mol === true ? "分子" : "非分子";
+            return `${c}（${m}）`;
+        };
 
         let items = [], idx = 0, score = 0, mistakes = [];
         let isAnimating = false, isPlaying = false, currentStage = 1;
@@ -641,9 +649,9 @@
                 let gaugeWidth = Math.max(0, (currentItemTime / totalDuration) * 100);
                 el.timeGauge.style.width = `${gaugeWidth}%`;
                 
-                if (gaugeWidth < 25) el.timeGauge.className = 'h-full w-full transition-all duration-75 transition-colors duration-500 bg-red-500';
-                else if (gaugeWidth < 50) el.timeGauge.className = 'h-full w-full transition-all duration-75 transition-colors duration-500 bg-yellow-400';
-                else el.timeGauge.className = 'h-full w-full transition-all duration-75 transition-colors duration-500 bg-cyan-500';
+                if (gaugeWidth < 25) el.timeGauge.className = 'h-full transition-colors duration-500 bg-red-500';
+                else if (gaugeWidth < 50) el.timeGauge.className = 'h-full transition-colors duration-500 bg-yellow-400';
+                else el.timeGauge.className = 'h-full transition-colors duration-500 bg-cyan-500';
 
                 if (currentItemTime <= 0) {
                     if (dragInfo.active) {
@@ -653,13 +661,21 @@
                         if (dragInfo.pointerId !== null && el.item.hasPointerCapture(dragInfo.pointerId)) {
                             try { el.item.releasePointerCapture(dragInfo.pointerId); } catch(e){}
                         }
-                        // ★エラー対策：ドラッグ中の時間切れ時、一旦コンベアの元の位置に戻してから綺麗に落とす
+                        // ★エラー対策: 確実に定位置に戻してから落とす（ブラウザの描画遅延に対応）
+                        el.item.style.transition = 'none';
                         el.item.style.position = 'absolute';
                         el.item.style.left = `${currentItemPos}%`;
                         el.item.style.top = '50%';
                         el.item.style.transform = `translate(-50%, -50%)`;
+                        
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                handleTimeOver();
+                            });
+                        });
+                    } else {
+                        handleTimeOver();
                     }
-                    handleTimeOver();
                 } else if (!dragInfo.active) {
                     el.item.style.transform = `translate(-50%, -50%)`;
                     el.item.style.left = `${currentItemPos}%`;
@@ -678,7 +694,7 @@
             currentItemTime = totalDuration; 
             currentItemPos = 130;
             
-            el.timeGauge.className = 'h-full w-full transition-all duration-75 transition-colors duration-500 bg-cyan-500';
+            el.timeGauge.className = 'h-full transition-colors duration-500 bg-cyan-500';
             el.timeGauge.style.width = '100%';
 
             el.item.style.transition = 'none';
@@ -832,7 +848,18 @@
                 mistakes.forEach(m => {
                     const li = document.createElement('li');
                     li.className = "bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-xs shrink-0";
-                    li.innerHTML = `<div class='flex justify-between font-black mb-1 text-slate-300'><span>${m.item.name} (${m.item.formula})</span><span class='text-red-500'>正解: ${m.exp}</span></div>`;
+                    const fullCat = getFullCategoryName(m.item.name);
+                    
+                    li.innerHTML = `
+                        <div class='flex flex-col gap-1 min-w-0'>
+                            <div class='font-black text-slate-200 truncate w-full'>
+                                ${m.item.name} <span class="font-mono text-slate-500 text-[10px]">(${m.item.formula})</span>
+                            </div>
+                            <div class='text-cyan-400 font-bold text-[10px] truncate w-full'>
+                                正解: ${fullCat}
+                            </div>
+                        </div>
+                    `;
                     list.appendChild(li);
                 });
             }
@@ -892,8 +919,26 @@
             e.classList.remove('flex');
             mistakeRecords.forEach((m, i) => {
                 const li = document.createElement('li');
-                li.className = "bg-slate-900 p-3 rounded-xl flex justify-between items-center border border-slate-800 shrink-0";
-                li.innerHTML = `<div class='flex items-center gap-3'><span class='text-slate-600 cyber-font'>#${i+1}</span><div><div class='font-black text-slate-200'>${m.name} <span class="font-mono text-slate-400 ml-1 text-[10px]">(${m.formula})</span></div><div class='text-[9px] text-slate-500 font-bold'>正解: ${m.expected}</div></div></div><div class="text-red-500 font-black text-xl cyber-font">${m.count}</div>`;
+                li.className = "bg-slate-900 p-3 rounded-xl flex justify-between items-center border border-slate-800 shrink-0 gap-2";
+                
+                const fullCat = getFullCategoryName(m.name);
+                
+                li.innerHTML = `
+                    <div class='flex items-center gap-3 min-w-0 flex-1'>
+                        <span class='text-slate-600 cyber-font text-sm shrink-0'>#${i+1}</span>
+                        <div class='min-w-0 flex-1'>
+                            <div class='font-black text-slate-200 truncate text-sm md:text-base'>
+                                ${m.name} <span class="font-mono text-slate-400 ml-1 text-[10px] md:text-xs">(${m.formula})</span>
+                            </div>
+                            <div class='text-[10px] md:text-xs text-cyan-400 font-bold mt-0.5 truncate'>
+                                正解: ${fullCat}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-red-500 font-black text-xl md:text-2xl cyber-font shrink-0 w-8 text-right">
+                        ${m.count}
+                    </div>
+                `;
                 l.appendChild(li);
             });
         };
